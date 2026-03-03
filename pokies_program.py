@@ -1,38 +1,55 @@
 # Pokies
 # Ria 25/2/26
 
-# Import random module
 import random
 
-# List for slot symbols 
 REELS = [
-  ["😊", "🍔", "🚀",],
-  ["🍔", "🤕", "🚀"],
-  ["😊", "🍔", "🤕"]]
+    ["😊", "🍔", "🚀"],
+    ["🍔", "🤕", "🚀"],
+    ["😊", "🍔", "🤕"]
+]
 
-# Greet the user and ask if they would like to play
-print("Welcome to the slot machine!")
-print(" ")
-print("""You will come across a face that shows 9 symbols.
-         Get three matching symbols in the middle row and you
-         win $200! If none of the symbols match you end up losing
-         $500. Good luck!""")
-print(" ")
-user_play = input("Would you like to spin the machine? y/n")
+# Greet the user to the program
+print("Welcome to the slot machine!\n")
 
-# Generate the spin (list comprehension for flexibility)
-while user_play == "y":
+# Display the preview of the symbols
+for reel in REELS:
+    print(" | ".join(reel))
+
+# Explain rules of program to user
+print("\nYou will come across a face that shows 9 symbols.")
+print("Get three matching symbols in the middle row and you win $500!")
+print("If none of the symbols match you lose $200. Good luck!\n")
+
+user_play = "y"
+balance = 100000
+
+while balance >= 200:
+    user_play = input(f"You currently have ${balance}. Spin for $500? y/n  ").lower().strip()
+
+    # Check if player wants to quit
+    if user_play != "y":
+        print("If you insist... Good luck missing out on all this money!")
+        break
+
+    # Generate the spin
     current_spin = [random.choice(reel) for reel in REELS]
 
-# Display the spin
+    # Display the spin
     print("----------------")
     print(f"| {' | '.join(current_spin)} |")
     print("----------------")
 
-# Set inside an 'if statement' to check if the symbols in the reel are the same
-    if len(set(current_spin)) == 1: 
-        print("You win!")
-        user_play = input("Would you like to continue playing? y/n")
+    # Check if all symbols match
+    if len(set(current_spin)) == 1:
+        balance += 500
+        print(f"You win! You won $500 and your current balance is: ${balance}")
     else:
-        print("You lose!")
-        
+        balance -= 200
+        print(f"You lose! You lost $200 and your current balance is: ${balance}")
+
+if balance < 200:
+    print("Sorry, you have no more money left in your account!")
+    print(" ")
+
+print("Thanks for playing! Hope it was a fun experience")
