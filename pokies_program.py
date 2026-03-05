@@ -8,21 +8,22 @@ import random
 REELS = [
     ["😊", "🍔", "🚀"],
     ["🍔", "🤕", "🚀"],
-    ["😊", "🍔", "🤕"]
+    ["🚀", "🍔", "🤕"]
 ]
 
 # Greet the user to the program
 print("Welcome to the slot machine!\n")
 
 # Display the preview of the symbols
-print("+--+----+--+")
-for reel in REELS:
-    print(" | ".join(reel))
-print("+--+----+--+")
+print("+----+----+----+")
+for row in range(3):
+    display = [column[row] for column in REELS]
+    print(f"| {' | '.join(display)} |")
+print("+----+----+----+")
 
 # Explain rules of program to user
 print("\nYou will come across a face that shows 9 symbols.")
-print("Get three matching symbols in the middle row and you win $500!")
+print("Get three matching symbols in a horizontal or diagonal row and you win $500!")
 print("If none of the symbols match you lose $200. Good luck!\n")
 
 # Set 'user play' to "y" so the loops runs automatically
@@ -51,23 +52,25 @@ while balance >= 200:
         print(f"| {' | '.join(line)} |")
     print("+----+----+----+")
 
-    # Define the 'middle row' and check if the symbols match for a win
+    #Define the top, bottom and middle rows
+    top_row = [grid[0][0], grid[1][0], grid[2][0]]
     middle_row = [grid[0][1], grid[1][1], grid[2][1]]
+    bottom_row = [grid[0][2], grid[1][2], grid[2][2]]
 
     #Define both the winning diagonal row combinations
     diag1 = [grid[0][0], grid[1][1], grid[2][2]]
     diag2 = [grid[0][2], grid[1][1], grid[2][0]]
     
     # Check if all symbols match
-    if len(set(middle_row)) == 1:
+    if len(set(top_row)) == 1 or len(set(middle_row)) == 1 or len(set(bottom_row)) == 1:
         balance += 500
-        print(f"\nYou hit the middle row combination and won $500! Your current balance is: ${balance}")
+        print("ROW MATCH! You've won won $500!")
     elif len(set(diag1)) == 1 or len(set(diag2)) == 1:
         balance += 1000
-        print(f"DIAGONAL MATCH! You've won $1000 and your current balance is ${balance}")
+        print("DIAGONAL MATCH! You've won $1000!")
     else:
         balance -= 200
-        print(f"No matches! You lost $200 and your current balance is: ${balance}")
+        print("No matches! You lost $200!")
 
 # Once user's balance is less than $200 they can no longer continue
 if balance < 200:
