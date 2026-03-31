@@ -12,11 +12,16 @@ REELS = [
 
 # Generate the spin
 def generate_spin():
-    grid = [random.choice(reel) for reel in REELS]
+    grid = []
+    for reel in REELS:
+        column = random.sample(reel, 3)
+        grid.append(column)
+    return grid
 
-    # Display the 3x3 grid row by row
+def display_grid(grid):
     print("+----+----+----+")
-    print(f"| {' | '.join(grid)} |")
+    for row in range(3):
+        print(f"| {grid[0][row]} | {grid[1][row]} | {grid[2][row]} |")
     print("+----+----+----+")
     return grid
 
@@ -38,18 +43,13 @@ def winning_line(grid):
     else:
         print("No matches! You lost $200!")
         return -200
-        return grid
-
 
 # Main function
 def main():
     balance = 1000
     print("Welcome to the slot machine!\n")
-    print("+----+----+----+")
-    for row in range(3):
-        display = [column[row] for column in REELS]
-        print(f"| {' | '.join(display)} |")
-    print("+----+----+----+")
+    initial_grid = generate_spin()
+    display_grid(initial_grid)
     print("\nYou will come across a face that shows 9 symbols.")
     print("Get three matching symbols in a horizontal or diagonal row and you win $500!")
     print("If none of the symbols match you lose $200. Good luck!\n")
@@ -62,6 +62,7 @@ def main():
             break
         
         grid = generate_spin()
+        print(grid)
         result = winning_line(grid)
         balance += result
         
