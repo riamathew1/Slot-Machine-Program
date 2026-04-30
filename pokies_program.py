@@ -62,7 +62,7 @@ def main():
             break
         
         grid = generate_spin()
-        print(grid)
+        display_grid(grid)
         result = winning_line(grid)
         balance += result
         
@@ -74,4 +74,6 @@ def main():
     print("Your final balance is {}".format(balance))
     print("Thanks for playing!")
 
-main()
+# Start program
+if __name__ == "__main__":
+    main()
